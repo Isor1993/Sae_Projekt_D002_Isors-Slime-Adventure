@@ -14,27 +14,21 @@ public class JumpBehaviour
     }
 
 
-    public bool Jump(bool isGrounded,bool isCoyote)
+    public bool Jump(bool isGrounded, bool isCoyote)
     {
-        bool canUseGround = isGrounded || isCoyote;
-        bool canDoubleJump = !isGrounded && _jumpCount < _config.MultiJumpCount;
+        bool canJumpGround = (isGrounded || isCoyote) && _jumpCount < _config.MaxJumpCount;
+        bool canJumpAir = (!isGrounded && !isCoyote) && _jumpCount < _config.MaxJumpCount;
 
-        if (canUseGround || canDoubleJump)
-        {
-            if(isGrounded&&isCoyote)
-            {
-                _jumpCount = 0;
-            }
-            Vector2 currentVelocity = _rb.linearVelocity;
-            currentVelocity.y = _config.JumpForce;
-            _rb.linearVelocity = currentVelocity;
-            _jumpCount++;
-
-            return true;
-        }
-        else
+        if (!canJumpGround && !canJumpAir)
         {
             return false;
-        }        
-    } 
+        }
+
+        Vector2 currentVelocity = _rb.linearVelocity;
+        currentVelocity.y = _config.JumpForce;
+        _rb.linearVelocity = currentVelocity;
+        _jumpCount++;
+
+        return true;
+    }
 }

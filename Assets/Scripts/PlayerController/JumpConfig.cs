@@ -10,19 +10,21 @@ public class JumpConfig : ScriptableObject
     [SerializeField] private float _coyoteTime = 0.1f;
     [SerializeField] private float _jumpBufferTime;
     [Tooltip("Always -1 because ")]
-    [SerializeField] private float _multiJumpCount=2;
-       
+    [SerializeField] private float _maxJumpCount = 2;
+    [SerializeField] private float _multiJumpCountAir = 1;
 
-    public float JumpForce =>_jumpforce;
 
-    public float GravityScaleUp =>_gravityScaleUp;
+    public float JumpForce => _jumpforce;
 
-    public float GravityScaleDown =>_gravityScaleDown;
+    public float GravityScaleUp => _gravityScaleUp;
 
-    public float JumpCutMultiplier =>_jumpCutMultiplier;
+    public float GravityScaleDown => _gravityScaleDown;
 
-    public float JumpBufferTime =>_jumpBufferTime;  
+    public float JumpCutMultiplier => _jumpCutMultiplier;
 
-    public float MultiJumpCount =>_multiJumpCount;
-    public float CoyoteTime=>_coyoteTime;
+    public float JumpBufferTime => _jumpBufferTime;
+
+    public float MaxJumpCount => _maxJumpCount;
+   
+    public float CoyoteTime => _coyoteTime;
 }
