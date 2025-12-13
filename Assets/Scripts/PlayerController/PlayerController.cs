@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     private float _horizentalInput = 0.0f; // Inptu-State
     private float _coyoteTimeCounter = 0f; // State
     private float _jumpBufferCounter = 0f;// State
-    private bool _jumpPressed = false; // Input-State
     private bool _isGrounded = false; // State
     private bool _wasGrounded = false; // State-History
 
@@ -70,7 +69,7 @@ public class PlayerController : MonoBehaviour
         _movement.SetGroundedState(_isGrounded);//OK
         HandleMovement();//OK
         HandleJump();
-        Debug.Log($"JumpCount:{_jumpBehaviour.JumpCount}");
+        
     }
     private void Update()
     {
@@ -82,12 +81,13 @@ public class PlayerController : MonoBehaviour
     {
         if (JustLanded)
         {
-            ResetCounter();//OK           
+            ResetGroundJumpCounter();
+            ResetAirJumpCounter();
             Debug.Log("Player landed on Ground.");
         }
         if (JustLeftGround)
         {
-            ResetCoyoteTimer() ;//OK
+            ResetCoyoteTimer();//OK
         }
     }
 
@@ -124,21 +124,26 @@ public class PlayerController : MonoBehaviour
 
     private void ResetCoyoteTimer()
     {
-        
-            _coyoteTimeCounter = _jumpConfig.CoyoteTime;
-            Debug.Log($" [CoyoteTime] reseted to [{_coyoteTimeCounter}].");
-        
+
+        _coyoteTimeCounter = _jumpConfig.CoyoteTime;
+        Debug.Log($" [CoyoteTime] reseted to [{_coyoteTimeCounter}].");
+
+    }
+    private void ResetAirJumpCounter()
+    {
+        _jumpBehaviour.ResetJumpCountAir();
+        Debug.Log("[JumpCountAir] is reseted.");
     }
 
-    private void ResetCounter()
+    private void ResetGroundJumpCounter()
     {
-        _jumpBehaviour.ResetJumpCount();
-        Debug.Log($"[Jump Count] is resetet.");
+        _jumpBehaviour.ResetJumpCountGround();
+        Debug.Log($"[JumpCountGround] is resetet.");
     }
 
     private void ReduceCoyoteTimer()
     {
-        if (!_isGrounded&&_coyoteTimeCounter>0f)
+        if (!_isGrounded && _coyoteTimeCounter > 0f)
         {
             _coyoteTimeCounter -= Time.deltaTime;
             Debug.Log($"[CoyoteTime] reduced to [{_coyoteTimeCounter}].");

@@ -7,11 +7,12 @@ public class JumpBehaviour
     private readonly JumpConfig _config;
     private readonly Rigidbody2D _rb;
 
-    // --- Field ---   
-    private const int SingleJump= 1;
-    private int _jumpCount;  
+    // --- Field ---     
+   
+    private int _jumpCountAir;    private bool _groundJumpAvailable=true;
     
-    public int JumpCount=>_jumpCount;
+    
+    
       
     public JumpBehaviour(JumpConfig config, Rigidbody2D rb)
     {
@@ -22,17 +23,19 @@ public class JumpBehaviour
 
     public bool Jump(bool isGrounded, bool isCoyoteAktive, bool multiJumpEnabled)
     {
-        int maxJumpCount = GetMaxJumpCount(multiJumpEnabled);
-        if(!CanJumpOnGround(isGrounded) 
-            && !CanJumpWithCoyote(isGrounded,isCoyoteAktive)
-            && !CanJumpInAir(isGrounded,multiJumpEnabled,maxJumpCount))
+        if(CanJumpOnGround(isGrounded,isCoyoteAktive))
         {
-            return false; 
+            PerformJumpPhysic();
+            _groundJumpAvailable=false;
+            return true;
         }
-           
-        PerformJumpPhysic();
-        _jumpCount++;
-        return true;
+        if(CanJumpInAir(isGrounded,multiJumpEnabled))
+        {
+            PerformJumpPhysic();
+            _jumpCountAir++;
+            return true;
+        }             
+        return false;
     }
 
     private void PerformJumpPhysic()
@@ -42,25 +45,22 @@ public class JumpBehaviour
         _rb.linearVelocity = currentVelocity;        
     }
     
-    private bool CanJumpOnGround(bool isGrounded)
+    private bool CanJumpOnGround(bool isGrounded,bool isCoyoteAktive)
     {
-        return isGrounded;
+        return _groundJumpAvailable && (isGrounded || isCoyoteAktive);
     }
-    private bool CanJumpInAir(bool isGrounded, bool multiJumpEnabled,int maxJumpCount)
+    private bool CanJumpInAir(bool isGrounded, bool multiJumpEnabled)
     {
-        return !isGrounded && multiJumpEnabled&&_jumpCount<maxJumpCount;
+        return !isGrounded && _jumpCountAir < _config.MaxJumpCountAir && multiJumpEnabled;
+    }    
+       
+    public void ResetJumpCountAir()
+    {
+        _jumpCountAir = 0;
     }
-    private bool CanJumpWithCoyote(bool isGrounded,bool isCoyoteAktive)
+    public void ResetJumpCountGround()
     {
-        return !isGrounded && isCoyoteAktive;
-    }
-    private int GetMaxJumpCount(bool multiJumpEnabled)
-    {
-        return multiJumpEnabled ? _config.MaxJumpCount : SingleJump;
-    }
-    public void ResetJumpCount()
-    {
-        _jumpCount = 0;
+        _groundJumpAvailable = true;
     }
 }
 
