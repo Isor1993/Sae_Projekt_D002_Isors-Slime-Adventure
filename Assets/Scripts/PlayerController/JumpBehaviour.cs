@@ -8,33 +8,35 @@ public class JumpBehaviour
     private readonly Rigidbody2D _rb;
 
     // --- Field ---     
-   
-    private int _jumpCountAir;    private bool _groundJumpAvailable=true;
-    
-    
-    
-      
+
+    private int _jumpCountAir; private bool _groundJumpAvailable = true;
+
+
+
+
     public JumpBehaviour(JumpConfig config, Rigidbody2D rb)
     {
         _config = config;
         _rb = rb;
-      
+
     }
 
     public bool Jump(bool isGrounded, bool isCoyoteAktive, bool multiJumpEnabled)
     {
-        if(CanJumpOnGround(isGrounded,isCoyoteAktive))
+        if (CanJumpOnGround(isGrounded, isCoyoteAktive))
         {
             PerformJumpPhysic();
-            _groundJumpAvailable=false;
+            _groundJumpAvailable = false;
+            Debug.Log("Player jumped from Ground.");
             return true;
         }
-        if(CanJumpInAir(isGrounded,multiJumpEnabled))
+        if (CanJumpInAir(isGrounded, multiJumpEnabled))
         {
             PerformJumpPhysic();
             _jumpCountAir++;
+            Debug.Log("Player jumped in air.");
             return true;
-        }             
+        }
         return false;
     }
 
@@ -42,18 +44,18 @@ public class JumpBehaviour
     {
         Vector2 currentVelocity = _rb.linearVelocity;
         currentVelocity.y = _config.JumpForce;
-        _rb.linearVelocity = currentVelocity;        
+        _rb.linearVelocity = currentVelocity;
     }
-    
-    private bool CanJumpOnGround(bool isGrounded,bool isCoyoteAktive)
+
+    private bool CanJumpOnGround(bool isGrounded, bool isCoyoteAktive)
     {
         return _groundJumpAvailable && (isGrounded || isCoyoteAktive);
     }
     private bool CanJumpInAir(bool isGrounded, bool multiJumpEnabled)
     {
         return !isGrounded && _jumpCountAir < _config.MaxJumpCountAir && multiJumpEnabled;
-    }    
-       
+    }
+
     public void ResetJumpCountAir()
     {
         _jumpCountAir = 0;

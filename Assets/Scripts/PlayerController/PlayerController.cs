@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -112,21 +111,20 @@ public class PlayerController : MonoBehaviour
         if (_jumpBehaviour.Jump(_isGrounded, IsCoyoteTimeActive(), _multiJumpEnabled))
         {
             _jumpBufferCounter = 0f;
-
         }
 
 
     }
     private void HandleMovement()
     {
-        _movement.Move(_horizentalInput);
+        _movement.Move(_horizentalInput);        
     }
 
     private void ResetCoyoteTimer()
     {
 
         _coyoteTimeCounter = _jumpConfig.CoyoteTime;
-        Debug.Log($" [CoyoteTime] reseted to [{_coyoteTimeCounter}].");
+        //Debug.Log($" [CoyoteTime] reseted to [{_coyoteTimeCounter}].");
 
     }
     private void ResetAirJumpCounter()
@@ -138,7 +136,7 @@ public class PlayerController : MonoBehaviour
     private void ResetGroundJumpCounter()
     {
         _jumpBehaviour.ResetJumpCountGround();
-        Debug.Log($"[JumpCountGround] is resetet.");
+        Debug.Log($"[JumpCountGround] is reseted.");
     }
 
     private void ReduceCoyoteTimer()
@@ -146,7 +144,7 @@ public class PlayerController : MonoBehaviour
         if (!_isGrounded && _coyoteTimeCounter > 0f)
         {
             _coyoteTimeCounter -= Time.deltaTime;
-            Debug.Log($"[CoyoteTime] reduced to [{_coyoteTimeCounter}].");
+            //Debug.Log($"[CoyoteTime] reduced to [{_coyoteTimeCounter}].");
         }
     }
 
