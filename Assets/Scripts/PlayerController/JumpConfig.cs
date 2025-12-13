@@ -10,8 +10,8 @@ public class JumpConfig : ScriptableObject
     [SerializeField] private float _coyoteTime = 0.1f;
     [SerializeField] private float _jumpBufferTime;
     [Tooltip("Always -1 because ")]
-    [SerializeField] private float _maxJumpCount = 2;
-    [SerializeField] private float _multiJumpCountAir = 1;
+    [SerializeField] private int _maxJumpCount = 2;
+    
 
 
     public float JumpForce => _jumpforce;
@@ -24,7 +24,7 @@ public class JumpConfig : ScriptableObject
 
     public float JumpBufferTime => _jumpBufferTime;
 
-    public float MaxJumpCount => _maxJumpCount;
+    public int MaxJumpCount => _maxJumpCount;
    
     public float CoyoteTime => _coyoteTime;
 }
