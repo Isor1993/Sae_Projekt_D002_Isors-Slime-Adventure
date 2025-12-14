@@ -48,39 +48,39 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _inputActions = new PlayerInputActions();
-        _move = _inputActions.Slime.Move;
-        _jump = _inputActions.Slime.Jump;
-        _movement = new MoveBehaviour(_moveConfig, _rb);
-        _jumpBehaviour = new JumpBehaviour(_jumpConfig, _rb);
+        _inputActions = new PlayerInputActions();// OK
+        _move = _inputActions.Slime.Move;// OK
+        _jump = _inputActions.Slime.Jump;// OK
+        _movement = new MoveBehaviour(_moveConfig, _rb);// OK
+        _jumpBehaviour = new JumpBehaviour(_jumpConfig, _rb);// OK
     }
 
     private void OnEnable()
     {
-        _inputActions.Slime.Enable();
+        _inputActions.Slime.Enable();// OK
     }
 
     private void OnDisable()
     {
-        _inputActions.Slime.Disable();
+        _inputActions.Slime.Disable();// OK
     }
 
     private void FixedUpdate()
     {
         UpdateGroundState();// OK
-        UpdateWallState();             // TODO
+        UpdateWallState();   // OK         
         ReduceCoyoteTimer();//OK
-        ReduceJumpBuffer();
+        ReduceJumpBuffer();// OK
         HandleGroundTransition();//OK
-        HandleWallTransition();                         //
+        HandleWallTransition();   // OK                   
         _movement.SetGroundedState(_isGrounded);//OK
         HandleMovement();//OK
-        HandleJump();
+        HandleJump();// OK
 
     }
     private void Update()
     {
-        UpdateInput();
+        UpdateInput();// OK
 
     }
 
