@@ -21,7 +21,7 @@ public class JumpBehaviour
 
     }
 
-    public bool Jump(bool isGrounded, bool isCoyoteAktive, bool multiJumpEnabled)
+    public bool Jump(bool isGrounded, bool isCoyoteAktive, bool multiJumpEnabled, bool isTouchingWall, bool wallJumpEnabled)
     {
         if (CanJumpOnGround(isGrounded, isCoyoteAktive))
         {
@@ -29,6 +29,14 @@ public class JumpBehaviour
             _groundJumpAvailable = false;
             Debug.Log("Player jumped from Ground.");
             return true;
+        }
+        if (CanWallJump(isTouchingWall,isGrounded, wallJumpEnabled))
+        {
+            PerformJumpPhysic();
+            _jumpCountAir++;
+            Debug.Log("Player jumped from wall.");
+            return true;
+
         }
         if (CanJumpInAir(isGrounded, multiJumpEnabled))
         {
@@ -54,6 +62,10 @@ public class JumpBehaviour
     private bool CanJumpInAir(bool isGrounded, bool multiJumpEnabled)
     {
         return !isGrounded && _jumpCountAir < _config.MaxJumpCountAir && multiJumpEnabled;
+    }
+    private bool CanWallJump(bool isTouchingWall, bool isGrounded, bool wallJumpEnabled)
+    {
+        return !isGrounded&&isTouchingWall&&_jumpCountAir < _config.MaxJumpCountAir && wallJumpEnabled;
     }
 
     public void ResetJumpCountAir()

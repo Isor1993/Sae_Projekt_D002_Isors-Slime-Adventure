@@ -16,6 +16,6 @@ MonoBehaviour:
   _gravityScaleUp: 0
   _gravityScaleDown: 0
   _jumpCutMultiplier: 0
-  _coyoteTime: 0.5
-  _jumpBufferTime: 0
-  _multiJumpCount: 2
+  _coyoteTime: 0.2
+  _jumpBufferTime: 0.15
+  _maxJumpCountAir: 1

@@ -9,15 +9,19 @@ public class PlayerController : MonoBehaviour
     private float _jumpBufferCounter = 0f;// State
     private bool _isGrounded = false; // State
     private bool _wasGrounded = false; // State-History
+    private bool _isTouchingWall = false; //State
+    private bool _wasTouchingWall = false; //State-History
 
     /// <summary>
     /// Transition
     /// </summary>
-    private bool JustLanded => !_wasGrounded && _isGrounded;
+    public bool JustLanded => !_wasGrounded && _isGrounded;
     /// <summary>
     /// Transition
     /// </summary>
-    private bool JustLeftGround => _wasGrounded && !_isGrounded;
+    public bool JustLeftGround => _wasGrounded && !_isGrounded;
+    public bool JustHitWall => !_wasTouchingWall && _isTouchingWall;
+    public bool JustLeftWall => _wasTouchingWall && !_isTouchingWall;
 
 
 
@@ -27,11 +31,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private JumpConfig _jumpConfig;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private GroundCheck _groundCheck;
+    [SerializeField] private WallCheck _wallCheck;
     private MoveBehaviour _movement;
     private JumpBehaviour _jumpBehaviour;
     [Header("Options")]
     [SerializeField] private bool _jumpIsEnabled = true; //Rule
     [SerializeField] private bool _multiJumpEnabled = true; //RUle
+    [SerializeField] private bool _wallJumpEnabled = true; //Rule
 
     // --- Input ----
     private PlayerInputActions _inputActions;
@@ -61,14 +67,16 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        UpdateGroundState();// OK       
+        UpdateGroundState();// OK
+        UpdateWallState();             // TODO
         ReduceCoyoteTimer();//OK
         ReduceJumpBuffer();
-        HandleGroundTransition();//OK     
+        HandleGroundTransition();//OK
+        HandleWallTransition();                         //
         _movement.SetGroundedState(_isGrounded);//OK
         HandleMovement();//OK
         HandleJump();
-        
+
     }
     private void Update()
     {
@@ -87,6 +95,21 @@ public class PlayerController : MonoBehaviour
         if (JustLeftGround)
         {
             ResetCoyoteTimer();//OK
+        }
+
+    }
+    private void HandleWallTransition()
+    {
+        if (JustHitWall)
+        {
+            
+            ResetAirJumpCounter();
+            Debug.Log("Player landed on Wall.");
+        }
+        if (JustLeftWall)
+        {
+           
+            ResetCoyoteTimer();
         }
     }
 
@@ -108,7 +131,7 @@ public class PlayerController : MonoBehaviour
         if (_jumpBufferCounter <= 0f)
             return;
 
-        if (_jumpBehaviour.Jump(_isGrounded, IsCoyoteTimeActive(), _multiJumpEnabled))
+        if (_jumpBehaviour.Jump(_isGrounded, IsCoyoteTimeActive(), _multiJumpEnabled,_isTouchingWall,_wallJumpEnabled))
         {
             _jumpBufferCounter = 0f;
         }
@@ -117,7 +140,7 @@ public class PlayerController : MonoBehaviour
     }
     private void HandleMovement()
     {
-        _movement.Move(_horizentalInput);        
+        _movement.Move(_horizentalInput);
     }
 
     private void ResetCoyoteTimer()
@@ -141,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
     private void ReduceCoyoteTimer()
     {
-        if (!_isGrounded && _coyoteTimeCounter > 0f)
+        if ((!_isGrounded && !_isTouchingWall) && _coyoteTimeCounter > 0f)
         {
             _coyoteTimeCounter -= Time.deltaTime;
             //Debug.Log($"[CoyoteTime] reduced to [{_coyoteTimeCounter}].");
@@ -157,6 +180,11 @@ public class PlayerController : MonoBehaviour
     {
         _wasGrounded = _isGrounded;
         _isGrounded = _groundCheck.CheckGround();
+    }
+    private void UpdateWallState()
+    {
+        _wasTouchingWall = _isTouchingWall;
+        _isTouchingWall = _wallCheck.CheckWall();
     }
 
     private void ReduceJumpBuffer()
