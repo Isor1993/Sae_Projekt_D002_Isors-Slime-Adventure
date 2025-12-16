@@ -6,6 +6,7 @@ public class JumpBehaviour
     // --- Dependencies ---
     private readonly JumpConfig _config;
     private readonly Rigidbody2D _rb;
+   
 
     // --- Field ---     
 
@@ -18,19 +19,20 @@ public class JumpBehaviour
     {
         _config = config;
         _rb = rb;
+       
 
     }
 
-    public bool Jump(bool isGrounded, bool isCoyoteAktive, bool multiJumpEnabled, bool isTouchingWall, bool wallJumpEnabled)
+    public bool Jump(JumpStateData JumpState)
     {
-        if (CanJumpOnGround(isGrounded, isCoyoteAktive))
+        if (CanJumpOnGround(JumpState.IsGrounded, JumpState.IsCoyoteActive))
         {
             PerformJumpPhysic();
             _groundJumpAvailable = false;
             Debug.Log("Player jumped from Ground.");
             return true;
         }
-        if (CanWallJump(isTouchingWall,isGrounded, wallJumpEnabled))
+        if (CanWallJump(JumpState.IsTouchingWall, JumpState.IsGrounded, JumpState.WallJumpEnabled))
         {
             PerformJumpPhysic();
             _jumpCountAir++;
@@ -38,7 +40,7 @@ public class JumpBehaviour
             return true;
 
         }
-        if (CanJumpInAir(isGrounded, multiJumpEnabled))
+        if (CanJumpInAir(JumpState.IsGrounded, JumpState.MultiJumpEnabled))
         {
             PerformJumpPhysic();
             _jumpCountAir++;

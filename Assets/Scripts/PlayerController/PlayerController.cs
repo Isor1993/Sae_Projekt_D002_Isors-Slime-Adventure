@@ -1,9 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+    public struct JumpStateData
+    {
+        public bool IsGrounded;
+        public bool IsCoyoteActive;
+        public bool IsTouchingWall;
+        public bool MultiJumpEnabled;
+        public bool WallJumpEnabled;
+    }
 
 public class PlayerController : MonoBehaviour
 {
+    private JumpStateData JumpData;
     private float _horizentalInput = 0.0f; // Inptu-State
     private float _coyoteTimeCounter = 0f; // State
     private float _jumpBufferCounter = 0f;// State
@@ -46,6 +55,7 @@ public class PlayerController : MonoBehaviour
 
 
 
+
     private void Awake()
     {
         _inputActions = new PlayerInputActions();// OK
@@ -53,6 +63,7 @@ public class PlayerController : MonoBehaviour
         _jump = _inputActions.Slime.Jump;// OK
         _movement = new MoveBehaviour(_moveConfig, _rb);// OK
         _jumpBehaviour = new JumpBehaviour(_jumpConfig, _rb);// OK
+        JumpData = new JumpStateData();
     }
 
     private void OnEnable()
@@ -102,13 +113,13 @@ public class PlayerController : MonoBehaviour
     {
         if (JustHitWall)
         {
-            
+
             ResetAirJumpCounter();
             Debug.Log("Player landed on Wall.");
         }
         if (JustLeftWall)
         {
-           
+
             ResetCoyoteTimer();
         }
     }
@@ -131,12 +142,25 @@ public class PlayerController : MonoBehaviour
         if (_jumpBufferCounter <= 0f)
             return;
 
-        if (_jumpBehaviour.Jump(_isGrounded, IsCoyoteTimeActive(), _multiJumpEnabled,_isTouchingWall,_wallJumpEnabled))
+        BuildJumpData(JumpData);
+
+        if (_jumpBehaviour.Jump(JumpData)) 
         {
             _jumpBufferCounter = 0f;
         }
 
 
+    }
+
+    private JumpStateData BuildJumpData(JumpStateData JumpData) //ok
+    {
+        JumpData.IsGrounded = _isGrounded;
+        JumpData.IsCoyoteActive = IsCoyoteTimeActive();
+        JumpData.IsTouchingWall = _isTouchingWall;
+        JumpData.MultiJumpEnabled=_multiJumpEnabled;
+        JumpData.WallJumpEnabled=_wallJumpEnabled;
+
+        return JumpData;
     }
     private void HandleMovement()
     {
