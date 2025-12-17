@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _move;
     private InputAction _jump;
     private InputAction _sprint;
+    private InputAction _push;
 
 
 
