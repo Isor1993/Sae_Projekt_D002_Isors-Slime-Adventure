@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-    public struct JumpStateData
-    {
-        public bool IsGrounded;
-        public bool IsCoyoteActive;
-        public bool IsTouchingWall;
-        public bool MultiJumpEnabled;
-        public bool WallJumpEnabled;
-    }
+public struct JumpStateData
+{
+    public bool IsGrounded;
+    public bool IsCoyoteActive;
+    public bool IsTouchingWall;
+    public bool MultiJumpEnabled;
+    public bool WallJumpEnabled;
+}
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool _wasGrounded = false; // State-History
     private bool _isTouchingWall = false; //State
     private bool _wasTouchingWall = false; //State-History
+    private bool _isSprinting = false;//State
 
     /// <summary>
     /// Transition
@@ -52,15 +53,14 @@ public class PlayerController : MonoBehaviour
     private PlayerInputActions _inputActions;
     private InputAction _move;
     private InputAction _jump;
+    private InputAction _sprint;
 
 
 
 
     private void Awake()
     {
-        _inputActions = new PlayerInputActions();// OK
-        _move = _inputActions.Slime.Move;// OK
-        _jump = _inputActions.Slime.Jump;// OK
+        MappingInputAction();
         _movement = new MoveBehaviour(_moveConfig, _rb);// OK
         _jumpBehaviour = new JumpBehaviour(_jumpConfig, _rb);// OK
         JumpData = new JumpStateData();
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
         HandleGroundTransition();//OK
         HandleWallTransition();   // OK                   
         _movement.SetGroundedState(_isGrounded);//OK
-        HandleMovement();//OK
+        HandleMovement(_isSprinting);//OK
         HandleJump();// OK
 
     }
@@ -132,6 +132,14 @@ public class PlayerController : MonoBehaviour
         {
             ResetJumpBuffer();
         }
+        if (_sprint.IsPressed())
+        {
+            _isSprinting = true;
+        }
+        else
+        {
+            _isSprinting = false;
+        }
     }
 
     private void HandleJump()
@@ -142,10 +150,11 @@ public class PlayerController : MonoBehaviour
         if (_jumpBufferCounter <= 0f)
             return;
 
-        BuildJumpData(JumpData);
-
-        if (_jumpBehaviour.Jump(JumpData)) 
+        JumpData=BuildJumpData(JumpData);
+        Debug.Log("kurz vor springen");
+        if (_jumpBehaviour.Jump(JumpData))
         {
+            Debug.Log(" gesprungen einmal");
             _jumpBufferCounter = 0f;
         }
 
@@ -157,14 +166,14 @@ public class PlayerController : MonoBehaviour
         JumpData.IsGrounded = _isGrounded;
         JumpData.IsCoyoteActive = IsCoyoteTimeActive();
         JumpData.IsTouchingWall = _isTouchingWall;
-        JumpData.MultiJumpEnabled=_multiJumpEnabled;
-        JumpData.WallJumpEnabled=_wallJumpEnabled;
+        JumpData.MultiJumpEnabled = _multiJumpEnabled;
+        JumpData.WallJumpEnabled = _wallJumpEnabled;
 
         return JumpData;
     }
-    private void HandleMovement()
+    private void HandleMovement(bool isSprinting)
     {
-        _movement.Move(_horizentalInput);
+        _movement.Move(_horizentalInput, isSprinting);
     }
 
     private void ResetCoyoteTimer()
@@ -221,5 +230,13 @@ public class PlayerController : MonoBehaviour
     private void ResetJumpBuffer()
     {
         _jumpBufferCounter = _jumpConfig.JumpBufferTime;
+    }
+
+    private void MappingInputAction()
+    {
+        _inputActions = new PlayerInputActions();// OK
+        _move = _inputActions.Slime.Move;// OK 
+        _jump = _inputActions.Slime.Jump;// OK
+        _sprint = _inputActions.Slime.Sprint;//OK
     }
 }

@@ -1141,12 +1141,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924ff0dd62371cf42b11cd5376a8b115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  _boxSize: {x: 0.12, y: 0.2}
-  _boxOffset: {x: 0, y: 0.01}
   DebugModus: 1
+  _wallChecks:
+  - _boxSize: {x: 0.12, y: 0}
+    _boxOffset: {x: 0, y: 0}
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
+  - _boxSize: {x: 0.12, y: 0}
+    _boxOffset: {x: 1, y: 0}
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 128
 --- !u!1 &1128038148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1284,7 +1290,7 @@ MonoBehaviour:
   _jumpConfig: {fileID: 11400000, guid: a700d84534a6d4b4aabf31a605d3ea17, type: 2}
   _rb: {fileID: 1128038149}
   _groundCheck: {fileID: 773391715}
-  _wallCheck: {fileID: 0}
+  _wallCheck: {fileID: 996722687}
   _jumpIsEnabled: 1
   _multiJumpEnabled: 1
   _wallJumpEnabled: 1

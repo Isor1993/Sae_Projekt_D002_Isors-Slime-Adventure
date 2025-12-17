@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: MoveConfig_Dafault
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  maxSpeed: 5
+  sprintSpeed: 6
+  maxSprintSpeed: 7
+  maxMoveSpeed: 2.5
   acceleration: 20
   deceleration: 20
   airAcceleration: 8
