@@ -1,33 +1,43 @@
+/*****************************************************************************
+* Project : Monsterkampf-Simulator (K1, S1, S4)
+* File    : 
+* Date    : xx.xx.2025
+* Author  : Eric Rosenberg
+*
+* Description :
+* *
+* History :
+* xx.xx.2025 ER Created
+******************************************************************************/
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "JumpConfig", menuName = "Scriptable Objects/JumpConfig")]
 public class JumpConfig : ScriptableObject
 {
+
     [SerializeField] private float _jumpforce = 5;
-    [SerializeField] private float _gravityScaleUp;
-    [SerializeField] private float _gravityScaleDown;
-    [SerializeField] private float _jumpCutMultiplier;
-    [SerializeField] private float _coyoteTime = 0.1f;
-    [SerializeField] private float _jumpBufferTime;
-    [Tooltip("Always -1 because ")]    
+    [SerializeField] private float _coyoteTime = 0.2f;
+    [SerializeField] private float _jumpBufferTime = 0.15f;
     [SerializeField] private int _maxJumpCountAir = 1;
 
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public float JumpForce => _jumpforce;
 
-    public float GravityScaleUp => _gravityScaleUp;
-
-    public float GravityScaleDown => _gravityScaleDown;
-
-    public float JumpCutMultiplier => _jumpCutMultiplier;
-
+    /// <summary>
+    /// 
+    /// </summary>
     public float JumpBufferTime => _jumpBufferTime;
 
-    
-   
+    /// <summary>
+    /// 
+    /// </summary>
     public int MaxJumpCountAir => _maxJumpCountAir;
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public float CoyoteTime => _coyoteTime;
 }
