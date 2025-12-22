@@ -1141,7 +1141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924ff0dd62371cf42b11cd5376a8b115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebugModus: 1
+  DebugModus: 0
   _wallChecks:
   - _boxSize: {x: 0.12, y: 0}
     _boxOffset: {x: 0, y: 0}

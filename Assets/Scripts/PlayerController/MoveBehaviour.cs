@@ -1,16 +1,18 @@
 /*****************************************************************************
-* Project : Monsterkampf-Simulator (K1, S1, S4)
-* File    : 
-* Date    : xx.xx.2025
+* Project : 2D Jump'n'Run Steuerung (K2, S2)
+* File    : MoveBehaviour.cs
+* Date    : 25.12.2025
 * Author  : Eric Rosenberg
 *
 * Description :
-* *
+* Handles horizontal movement logic for the player, including ground and air
+* movement, sprinting, acceleration, deceleration and speed clamping.
+*
 * History :
-* xx.xx.2025 ER Created
+* 25.12.2025 ER Created
 ******************************************************************************/
-using UnityEngine;
 
+using UnityEngine;
 
 
 public class MoveBehaviour
@@ -23,21 +25,29 @@ public class MoveBehaviour
     private bool _isGrounded = false;
 
     /// <summary>
-    /// 
+    /// Initializes a new instance of the MoveBehaviour class.
     /// </summary>
-    /// <param name="config"></param>
-    /// <param name="rb"></param>
+    /// <param name="config">
+    /// Reference to the MoveConfig containing movement configuration values.
+    /// </param>
+    /// <param name="rb">
+    /// Reference to the Rigidbody2D used to apply movement velocity.
+    /// </param>
     public MoveBehaviour(MoveConfig config, Rigidbody2D rb)
     {
         _config = config;
         _rb = rb;
     }
-    
+
     /// <summary>
-    /// 
+    /// Applies horizontal movement based on the current grounded state and sprint input.
     /// </summary>
-    /// <param name="inputX"></param>
-    /// <param name="isSprinting"></param>
+    /// <param name="inputX">
+    /// Horizontal movement input value, typically ranging from -1 to 1.
+    /// </param>
+    /// <param name="isSprinting">
+    /// Indicates whether sprint movement is currently active.
+    /// </param>
     public void Move(float inputX, bool isSprinting)
     {
         Vector2 velocity;
@@ -53,11 +63,17 @@ public class MoveBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Calculates horizontal velocity while the player is grounded.
     /// </summary>
-    /// <param name="inputX"></param>
-    /// <param name="isSprinting"></param>
-    /// <returns></returns>
+    /// <param name="inputX">
+    /// Horizontal movement input value.
+    /// </param>
+    /// <param name="isSprinting">
+    /// Indicates whether sprint movement is active.
+    /// </param>
+    /// <returns>
+    /// The calculated velocity vector to be applied to the Rigidbody2D.
+    /// </returns>
     public Vector2 OnGround(float inputX, bool isSprinting)
     {
         float moveSpeed = inputX * _config.MoveSpeed;
@@ -78,11 +94,17 @@ public class MoveBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Calculates horizontal velocity while the player is airborne.
     /// </summary>
-    /// <param name="InputX"></param>
-    /// <param name="isSprinting"></param>
-    /// <returns></returns>
+    /// <param name="InputX">
+    /// Horizontal movement input value.
+    /// </param>
+    /// <param name="isSprinting">
+    /// Indicates whether sprint movement is active.
+    /// </param>
+    /// <returns>
+    /// The calculated velocity vector to be applied to the Rigidbody2D.
+    /// </returns>
     private Vector2 InAir(float InputX, bool isSprinting)
     {
 
@@ -102,9 +124,11 @@ public class MoveBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Sets whether the player is currently grounded.
     /// </summary>
-    /// <param name="isGrounded"></param>
+    /// <param name="isGrounded">
+    /// True if the player is touching the ground; otherwise, false.
+    /// </param>
     public void SetGroundedState(bool isGrounded)
     {
         _isGrounded = isGrounded;
