@@ -994,7 +994,7 @@ MonoBehaviour:
     m_Bits: 64
   _boxSize: {x: 1.14, y: 0.04}
   _boxOffset: {x: 0, y: 0.98}
-  DebugModus: 1
+  DebugModus: 0
 --- !u!4 &773391716
 Transform:
   m_ObjectHideFlags: 0
