@@ -11,16 +11,19 @@
 * History :
 * 25.12.2025 ER Created
 ******************************************************************************/
+
 using UnityEngine;
 
 public class JumpBehaviour
 {
     // --- Dependencies ---
     private readonly JumpConfig _config;
+
     private readonly Rigidbody2D _rb;
 
-    // --- Field ---     
+    // --- Field ---
     private int _jumpCountAir;
+
     private bool _groundJumpAvailable = true;
 
     /// <summary>
@@ -63,7 +66,6 @@ public class JumpBehaviour
             _jumpCountAir++;
             Debug.Log("Player jumped from wall.");
             return true;
-
         }
         if (CanJumpInAir(JumpState.IsGrounded, JumpState.MultiJumpEnabled))
         {
@@ -155,6 +157,3 @@ public class JumpBehaviour
         _groundJumpAvailable = true;
     }
 }
-
-
-

@@ -12,6 +12,7 @@
 * History :
 * 25.12.2025 ER Created
 ******************************************************************************/
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MoveConfig", menuName = "Scriptable Objects/MoveConfig")]
@@ -19,23 +20,31 @@ public class MoveConfig : ScriptableObject
 {
     [Header("MoveBehaviour Settings")]
     [Tooltip("Base movement speed when walking. Default : 2f")]
-    [SerializeField] float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 2f;
+
     [Tooltip("Base movement speed when sprinting. Default : 6f")]
-    [SerializeField] float sprintSpeed = 6f;
+    [SerializeField] private float sprintSpeed = 6f;
+
     [Tooltip("Maximum movement speed while sprinting. Default : 7f")]
-    [SerializeField] float maxSprintSpeed = 7f;
+    [SerializeField] private float maxSprintSpeed = 7f;
+
     [Tooltip("Maximum movement speed while walking. : 2.5f")]
-    [SerializeField] float maxMoveSpeed = 2.5f;
+    [SerializeField] private float maxMoveSpeed = 2.5f;
+
     [Tooltip("Acceleration rate applied on the ground when increasing speed. Default : 20f")]
-    [SerializeField] float acceleration = 20f;
+    [SerializeField] private float acceleration = 20f;
+
     [Tooltip("Deceleration rate applied on the ground when reducing speed. Default : 20f")]
-    [SerializeField] float deceleration = 20f;
+    [SerializeField] private float deceleration = 20f;
+
     [Tooltip("Acceleration rate applied while airborne. Default : 8f")]
-    [SerializeField] float airAcceleration = 8f;
+    [SerializeField] private float airAcceleration = 8f;
+
     [Tooltip("Deceleration rate applied while airborne. Default : 2f")]
-    [SerializeField] float airDeceleration = 2f;
+    [SerializeField] private float airDeceleration = 2f;
+
     [Tooltip("Factor controlling how much horizontal control the player has while airborne. Default: 0.8f")]
-    [SerializeField] float airControlFactor = 0.8f;
+    [SerializeField] private float airControlFactor = 0.8f;
 
     /// <summary>
     /// Gets the base walking movement speed.

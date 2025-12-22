@@ -12,9 +12,7 @@
 * 25.12.2025 ER Created
 ******************************************************************************/
 
-
 using UnityEngine;
-
 
 [CreateAssetMenu(fileName = "JumpConfig", menuName = "Scriptable Objects/JumpConfig")]
 public class JumpConfig : ScriptableObject
@@ -22,13 +20,15 @@ public class JumpConfig : ScriptableObject
     [Header("JumpBehaviour Settings")]
     [Tooltip("Defines the vertical force applied when the player jumps. Default : 6f")]
     [SerializeField] private float _jumpforce = 6f;
+
     [Tooltip("Defines the duration after leaving the ground in which a jump is still allowed. Default: 0.2f")]
     [SerializeField] private float _coyoteTime = 0.2f;
+
     [Tooltip("Defines how long a buffered jump input is stored before it expires. Fefault : 0.15f")]
     [SerializeField] private float _jumpBufferTime = 0.15f;
+
     [Tooltip("Defines how many jumps the player can perform while airborne.")]
     [SerializeField] private int _maxJumpCountAir = 1;
-
 
     /// <summary>
     /// Gets the vertical force applied to the Rigidbody when a jump is executed.

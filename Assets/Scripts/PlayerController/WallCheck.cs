@@ -17,9 +17,7 @@ using UnityEngine;
 
 public class WallCheck : MonoBehaviour
 {
-
     [Header("Options")]
-
     [Tooltip("Activates the drawing on Gizmos of the Wallckecks")]
     [SerializeField] private bool DebugModus = false;
 
@@ -31,13 +29,17 @@ public class WallCheck : MonoBehaviour
     {
         [Header("Settings OverLapBox")]
         public Vector2 _boxSize;
+
         [Tooltip("Offset from GameObject to place the Wallcheck")]
         public Vector2 _boxOffset;
+
         [Tooltip("Target LayerMask which will be ckecked")]
         public LayerMask layerMask;
     }
+
     //--- Fields ---
     [SerializeField] private WallCheckData[] _wallChecks;
+
     private bool _isTouchingWall;
 
     /// <summary>
@@ -55,7 +57,6 @@ public class WallCheck : MonoBehaviour
                 break;
             }
         }
-
     }
 
     /// <summary>

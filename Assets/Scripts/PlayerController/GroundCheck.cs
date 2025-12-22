@@ -14,16 +14,18 @@
 
 using UnityEngine;
 
-
 public class GroundCheck : MonoBehaviour
 {
     [Header("Settings OverLapBox")]
     [Tooltip("LayerMask defining which layers are considered ground.")]
     [SerializeField] private LayerMask _layerMask;
+
     [Tooltip("Size of the overlap box used for ground detection.")]
     [SerializeField] private Vector2 _boxSize = new Vector2(1.14f, 0.04f);
+
     [Tooltip("Local offset from the GameObject position where the ground check is performed.")]
     [SerializeField] private Vector2 _boxOffset = new Vector2(0f, 0.98f);
+
     [Header("Debug")]
     [Tooltip("Enables Gizmos visualization for the ground check.")]
     [SerializeField] private bool DebugModus = false;

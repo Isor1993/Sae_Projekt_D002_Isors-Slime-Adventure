@@ -14,11 +14,11 @@
 
 using UnityEngine;
 
-
 public class MoveBehaviour
 {
     //--- Dependencies ---
     private readonly MoveConfig _config;
+
     private readonly Rigidbody2D _rb;
 
     //--- Fields ---
@@ -57,7 +57,7 @@ public class MoveBehaviour
         }
         else
         {
-            velocity = InAir(inputX,isSprinting);
+            velocity = InAir(inputX, isSprinting);
         }
         _rb.linearVelocity = velocity;
     }
@@ -78,8 +78,8 @@ public class MoveBehaviour
     {
         float moveSpeed = inputX * _config.MoveSpeed;
         float sprintSpeed = inputX * _config.SprintSpeed;
-        float targetSpeed = isSprinting ? sprintSpeed : moveSpeed;  
-        float MaxSpeed= isSprinting? _config.MaxSprintSpeed:_config.MaxSpeed;
+        float targetSpeed = isSprinting ? sprintSpeed : moveSpeed;
+        float MaxSpeed = isSprinting ? _config.MaxSprintSpeed : _config.MaxSpeed;
         var currentVelocity = _rb.linearVelocity;
         if (inputX != 0)
         {
@@ -107,8 +107,7 @@ public class MoveBehaviour
     /// </returns>
     private Vector2 InAir(float InputX, bool isSprinting)
     {
-
-        float airMaxSpeed = (isSprinting?_config.MaxSprintSpeed: _config.MaxSpeed) * _config.AirControlFactor;
+        float airMaxSpeed = (isSprinting ? _config.MaxSprintSpeed : _config.MaxSpeed) * _config.AirControlFactor;
         float targetspeed = InputX * airMaxSpeed;
         var currentVelocity = _rb.linearVelocity;
         if (InputX != 0)

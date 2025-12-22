@@ -12,6 +12,7 @@
 * History :
 * 25.12.2025 ER Created
 ******************************************************************************/
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,7 +31,6 @@ public struct JumpStateData
 
 public class PlayerController : MonoBehaviour
 {
-
     private JumpStateData JumpData;
     private float _horizentalInput = 0.0f;
     private float _coyoteTimeCounter = 0f;
@@ -61,11 +61,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool JustLeftWall => _wasTouchingWall && !_isTouchingWall;
 
-
-
-
     [Header("Dependencies")]
     [SerializeField] private MoveConfig _moveConfig;
+
     [SerializeField] private JumpConfig _jumpConfig;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private GroundCheck _groundCheck;
@@ -77,13 +75,16 @@ public class PlayerController : MonoBehaviour
     [Header("Options")]
     [Tooltip("Activates Jump")]
     [SerializeField] private bool _jumpIsEnabled = true;
+
     [Tooltip("Activates Multi Jump")]
     [SerializeField] private bool _multiJumpEnabled = true;
+
     [Tooltip("Activates Wall Jump")]
-    [SerializeField] private bool _wallJumpEnabled = true; 
+    [SerializeField] private bool _wallJumpEnabled = true;
 
     // --- Input ----
     private PlayerInputActions _inputActions;
+
     private InputAction _move;
     private InputAction _jump;
     private InputAction _sprint;
@@ -125,7 +126,7 @@ public class PlayerController : MonoBehaviour
         ReduceCoyoteTimer();
         ReduceJumpBuffer();
         HandleGroundTransition();
-        HandleWallTransition();                
+        HandleWallTransition();
         _movement.SetGroundedState(_isGrounded);
         HandleMovement(_isSprinting);
         HandleJump();
@@ -154,7 +155,6 @@ public class PlayerController : MonoBehaviour
         {
             ResetCoyoteTimer();
         }
-
     }
 
     /// <summary>
@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ResetCoyoteTimer()
     {
-        _coyoteTimeCounter = _jumpConfig.CoyoteTime;       
+        _coyoteTimeCounter = _jumpConfig.CoyoteTime;
     }
 
     /// <summary>
@@ -278,7 +278,7 @@ public class PlayerController : MonoBehaviour
     {
         if ((!_isGrounded && !_isTouchingWall) && _coyoteTimeCounter > 0f)
         {
-            _coyoteTimeCounter -= Time.deltaTime;            
+            _coyoteTimeCounter -= Time.deltaTime;
         }
     }
 
@@ -336,7 +336,7 @@ public class PlayerController : MonoBehaviour
     private void MappingInputAction()
     {
         _inputActions = new PlayerInputActions();
-        _move = _inputActions.Slime.Move; 
+        _move = _inputActions.Slime.Move;
         _jump = _inputActions.Slime.Jump;
         _sprint = _inputActions.Slime.Sprint;
     }
